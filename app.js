@@ -6,7 +6,7 @@ function WeatherApp(apiKey) {
     this.apiUrl = "https://api.openweathermap.org/data/2.5/weather";
     this.forecastUrl = "https://api.openweathermap.org/data/2.5/forecast";
 
-    // DOM references
+    // DOM Elements
     this.searchBtn = document.getElementById("search-btn");
     this.cityInput = document.getElementById("city-input");
     this.weatherDisplay = document.getElementById("weather-display");
@@ -15,13 +15,16 @@ function WeatherApp(apiKey) {
 }
 
 
+// Initialize App
 WeatherApp.prototype.init = function () {
 
+    // Search button click
     this.searchBtn.addEventListener(
         "click",
         this.handleSearch.bind(this)
     );
 
+    // Press Enter to search
     this.cityInput.addEventListener("keypress", (event) => {
 
         if (event.key === "Enter") {
@@ -34,12 +37,13 @@ WeatherApp.prototype.init = function () {
 };
 
 
+// Welcome Message
 WeatherApp.prototype.showWelcome = function () {
 
     const welcomeHTML = `
         <div class="welcome-message">
             <h2>🌤 Weather App</h2>
-            <p>Enter a city name to get started!</p>
+            <p>Enter a city name to check the weather!</p>
         </div>
     `;
 
@@ -47,6 +51,7 @@ WeatherApp.prototype.showWelcome = function () {
 };
 
 
+// Handle Search
 WeatherApp.prototype.handleSearch = function () {
 
     const city = this.cityInput.value.trim();
@@ -67,6 +72,7 @@ WeatherApp.prototype.handleSearch = function () {
 };
 
 
+// Fetch Weather
 WeatherApp.prototype.getWeather = async function (city) {
 
     this.showLoading();
@@ -75,7 +81,7 @@ WeatherApp.prototype.getWeather = async function (city) {
     this.searchBtn.textContent = "Searching...";
 
     const currentWeatherUrl =
-        `${this.apiUrl}?q=${city}&appid=${this.apiKey}&units=metric`;
+        ${this.apiUrl}?q=${city}&appid=${this.apiKey}&units=metric;
 
     try {
 
@@ -94,9 +100,9 @@ WeatherApp.prototype.getWeather = async function (city) {
         console.error(error);
 
         if (error.response && error.response.status === 404) {
-            this.showError("City not found. Please check spelling.");
+            this.showError("City not found. Please check the spelling.");
         } else {
-            this.showError("Something went wrong.");
+            this.showError("Unable to fetch weather data.");
         }
 
     } finally {
@@ -107,10 +113,11 @@ WeatherApp.prototype.getWeather = async function (city) {
 };
 
 
+// Fetch Forecast
 WeatherApp.prototype.getForecast = async function (city) {
 
     const url =
-        `${this.forecastUrl}?q=${city}&appid=${this.apiKey}&units=metric`;
+        ${this.forecastUrl}?q=${city}&appid=${this.apiKey}&units=metric;
 
     try {
 
@@ -127,21 +134,20 @@ WeatherApp.prototype.getForecast = async function (city) {
 };
 
 
+// Display Current Weather
 WeatherApp.prototype.displayWeather = function (data) {
 
     const cityName = data.name;
-
     const temperature = Math.round(data.main.temp);
-
     const description = data.weather[0].description;
-
     const icon = data.weather[0].icon;
 
     const iconUrl =
-        `https://openweathermap.org/img/wn/${icon}@2x.png`;
+        https://openweathermap.org/img/wn/${icon}@2x.png;
 
     const weatherHTML = `
         <div class="weather-info">
+
             <h2 class="city-name">${cityName}</h2>
 
             <img src="${iconUrl}" class="weather-icon">
@@ -149,6 +155,7 @@ WeatherApp.prototype.displayWeather = function (data) {
             <div class="temperature">${temperature}°C</div>
 
             <p class="description">${description}</p>
+
         </div>
     `;
 
@@ -158,6 +165,7 @@ WeatherApp.prototype.displayWeather = function (data) {
 };
 
 
+// Process Forecast Data
 WeatherApp.prototype.processForecastData = function (data) {
 
     const dailyForecasts = data.list.filter(function (item) {
@@ -170,6 +178,7 @@ WeatherApp.prototype.processForecastData = function (data) {
 };
 
 
+// Display Forecast
 WeatherApp.prototype.displayForecast = function (data) {
 
     const dailyForecasts = this.processForecastData(data);
@@ -189,7 +198,7 @@ WeatherApp.prototype.displayForecast = function (data) {
         const icon = day.weather[0].icon;
 
         const iconUrl =
-            `https://openweathermap.org/img/wn/${icon}@2x.png`;
+            https://openweathermap.org/img/wn/${icon}@2x.png;
 
         return `
             <div class="forecast-card">
@@ -225,6 +234,7 @@ WeatherApp.prototype.displayForecast = function (data) {
 };
 
 
+// Loading UI
 WeatherApp.prototype.showLoading = function () {
 
     const loadingHTML = `
@@ -238,6 +248,7 @@ WeatherApp.prototype.showLoading = function () {
 };
 
 
+// Error UI
 WeatherApp.prototype.showError = function (message) {
 
     const errorHTML = `
@@ -254,5 +265,5 @@ WeatherApp.prototype.showError = function (message) {
 };
 
 
-// Create WeatherApp instance
-const app = new WeatherApp("511e162c79834cdf0e225f834df53af6");
+// Create App Instance
+const app = new WeatherApp(CONFIG.API_KEY);

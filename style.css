@@ -84,6 +84,77 @@ h1 {
     width: 100px;
     height: 100px;
 }
+/* Style for search section */
+.search-section {
+    margin-bottom: 30px;
+    display: flex;
+    gap: 10px; /* space between input and button */
+    flex-wrap: wrap; /* makes it responsive on small screens */
+}
+
+/* Style for city input field */
+#city-input {
+    padding: 12px 20px;
+    border-radius: 25px;
+    border: 2px solid #ddd;
+    flex: 1; /* takes remaining space */
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+/* Focus state for input */
+#city-input:focus {
+    border-color: #4facfe; /* highlight color when typing */
+}
+
+/* Style for search button */
+#search-btn {
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+/* Hover effect for button */
+#search-btn:hover {
+    transform: scale(1.05);
+    opacity: 0.9;
+}
+.error-message {
+    background: #ffe5e5;
+    color: #b30000;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+.loading-container {
+    text-align: center;
+    padding: 30px;
+}
+
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #667eea;
+    border-radius: 50%;
+    margin: 0 auto 15px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
 .forecast-section{
 margin-top:30px;
 padding-top:30px;
@@ -113,4 +184,55 @@ transform:translateY(-5px);
 font-size:1.5rem;
 color:#667eea;
 font-weight:bold;
+}
+.recent-searches-section{
+margin:20px 0;
+}
+
+.recent-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+#recent-searches-container{
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+}
+
+.recent-search-btn{
+padding:8px 16px;
+background:#f0f0f0;
+border:none;
+border-radius:20px;
+cursor:pointer;
+font-size:0.9rem;
+transition:all 0.3s;
+}
+
+.recent-search-btn:hover{
+background:#667eea;
+color:white;
+transform:translateY(-2px);
+}
+
+.recent-search-btn:active{
+transform:scale(0.95);
+}
+
+.clear-history-btn{
+font-size:0.8rem;
+padding:5px 10px;
+border:1px solid #ddd;
+background:white;
+cursor:pointer;
+border-radius:5px;
+}
+
+.clear-history-btn:hover{
+background:#ffdddd;
+color:red;
 }
